@@ -2,6 +2,7 @@
 #Needs to be named reboot_counter.sh, move into /usr/local/bin
 #File edits may be needed to run this in other location.
 # Path to the reboot count file
+##
 COUNT_FILE="/home/oem/Desktop/boot-count.log"
 
 # Function to initialize the service if not already done
