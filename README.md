@@ -9,5 +9,7 @@ Change the number after -eq to adjust number of reboots.
 
 
 `cp -r reboot_counter.sh /usr/local/bin`
+
+
 `./usr/local/bin/reboot_counter.sh`
 
