@@ -36,12 +36,12 @@ else
 fi
 
 # Remove desktop icon
-if [ -f "$DESKTOP_FILE" ]; then
-    rm -f $DESKTOP_FILE
-    echo "Removed: $DESKTOP_FILE"
-else
-    echo "File not found: $DESKTOP_FILE"
-fi
+#if [ -f "$DESKTOP_FILE" ]; then
+#    rm -f $DESKTOP_FILE
+#    echo "Removed: $DESKTOP_FILE"
+#else
+#    echo "File not found: $DESKTOP_FILE"
+#fi
 
 # Reload systemd daemon to apply changes
 systemctl daemon-reload

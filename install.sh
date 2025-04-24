@@ -71,18 +71,18 @@ WantedBy=multi-user.target" > "$SERVICE_FILE"
 }
 
 # Function to create desktop icon
-create_desktop_icon() {
-    echo "[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Reboot Counter
-Exec=sudo $MAIN_SCRIPT_PATH
-Icon=system-run
-Terminal=false
-StartupWMClass=reboot_counter" > "$DESKTOP_FILE"
-
-    chmod +x "$DESKTOP_FILE"
-}
+#create_desktop_icon() {
+#    echo "[Desktop Entry]
+#Version=1.0
+#Type=Application
+#Name=Reboot Counter
+#Exec=sudo $MAIN_SCRIPT_PATH
+#Icon=system-run
+#Terminal=false
+#StartupWMClass=reboot_counter" > "$DESKTOP_FILE"
+#
+#    chmod +x "$DESKTOP_FILE"
+#}
 
 # Function to configure sudoers for password-less execution
 configure_sudoers() {
