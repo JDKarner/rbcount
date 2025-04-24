@@ -41,9 +41,8 @@ check_reboots() {
 check_reboots
 reboot_count=\$?
 # Check if we've reached X reboots
-# Ideally set this much larger than 3
-if [ \"\$reboot_count\" -eq 3 ]; then
-    echo \"Successfully rebooted 3 times!\"
+if [ \"\$reboot_count\" -eq 100 ]; then
+    echo \"Successfully rebooted X times!\"
 else
     # Reboot the system again
     reboot

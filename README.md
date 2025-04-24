@@ -1,15 +1,10 @@
-install into `usr/local/bin/` and run from that location
-variables can be edited for where you want the count log as well as how many reboots.
+Find this line in the installer
 ```
 # Check if we've reached X reboots
-if [ "$reboot_count" -eq 200 ]; then
-    echo "Successfully rebooted X times!"
+if [ "$reboot_count" -eq 100 ]; then
+    echo "Successfully rebooted x times!"
 ```
 Change the number after -eq to adjust number of reboots.
+Default is 100.
 
-
-`cp -r reboot_counter.sh /usr/local/bin`
-
-
-`./usr/local/bin/reboot_counter.sh`
-
+Run the installer with sudo, this also starts the service for the reboots, don't install until ready.
