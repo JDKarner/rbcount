@@ -4,7 +4,7 @@
 MAIN_SCRIPT_NAME="reboot_counter.sh"
 MAIN_SCRIPT_PATH="/usr/local/bin/$MAIN_SCRIPT_NAME"
 COUNT_FILE="/home/oem/Desktop/boot-count.log"
-DESKTOP_FILE="/home/oem/Desktop/reboot_counter.desktop"
+DESKTOP_FILE="/home/oem/Desktop/rbcount_is_installed.desktop"
 
 # Check if running as root
 if [ "$EUID" -ne 0 ]; then
