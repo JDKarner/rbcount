@@ -34,7 +34,7 @@ check_reboots() {
     # Display the current reboot count
     echo \"System has rebooted \$reboot_count times.\"
     # Wait for 5 seconds
-    sleep 5
+    sleep 25
     # Overwrite the count file with just the new count
     echo \"\$reboot_count\" > \"$COUNT_FILE\"
     # Count Samsung NVMe drives and append to separate log
@@ -47,8 +47,8 @@ check_reboots() {
 # Get the current reboot count after incrementing
 check_reboots
 reboot_count=\$?
-# Check if we've reached 100 reboots
-if [ \"\$reboot_count\" -eq 100 ]; then
+# Check if we've reached 3 reboots
+if [ \"\$reboot_count\" -eq 3 ]; then
     echo \"Successfully rebooted 100 times!\"
 else
     # Reboot the system again
