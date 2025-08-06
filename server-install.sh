@@ -3,8 +3,9 @@
 # Set up variables
 MAIN_SCRIPT_NAME="reboot_counter.sh"
 MAIN_SCRIPT_PATH="/usr/local/bin/$MAIN_SCRIPT_NAME"
-COUNT_FILE="/var/log/boot-count.log"
+COUNT_FILE="/home/oem/boot-count.log"
 NVME_LOG_CMD="lspci | grep -i -c samsung"
+NVME_LOG_FILE="/home/oem/nvme-count.log"
 DESKTOP_FILE="/home/oem/Desktop/rbcount_is_installed.desktop"
 
 # Check if running as root
@@ -19,6 +20,7 @@ create_main_script() {
 # Path to the reboot count file
 COUNT_FILE=\"$COUNT_FILE\"
 NVME_LOG_CMD=\"$NVME_LOG_CMD\"
+NVME_LOG_FILE=\"$NVME_LOG_FILE\"
 
 # Function to check and increment reboot count
 check_reboots() {
@@ -27,21 +29,17 @@ check_reboots() {
         echo \"0\" > \"$COUNT_FILE\"
     fi
     # Read current count from file and increment it
-    current_count=\$(head -n 1 \"$COUNT_FILE\" 2>/dev/null | grep -Eo '^[0-9]+' || echo 0)
+    current_count=\$(cat \"$COUNT_FILE\" 2>/dev/null | grep -Eo '^[0-9]+' || echo 0)
     reboot_count=\$((current_count + 1))
     # Display the current reboot count
     echo \"System has rebooted \$reboot_count times.\"
     # Wait for 5 seconds
     sleep 5
-    # Update the count in the file (overwrite first line)
-    tmpfile=\$(mktemp)
-    echo \"\$reboot_count\" > \"$tmpfile\"
-    # Count Samsung NVMe drives and append to log
+    # Overwrite the count file with just the new count
+    echo \"\$reboot_count\" > \"$COUNT_FILE\"
+    # Count Samsung NVMe drives and append to separate log
     nvme_count=\$(eval \"$NVME_LOG_CMD\")
-    echo \"$(date): Samsung NVMe drives: \$nvme_count\" >> \"$tmpfile\"
-    # Append any previous log entries except the old first line
-    tail -n +2 \"$COUNT_FILE\" 2>/dev/null >> \"$tmpfile\"
-    mv \"$tmpfile\" \"$COUNT_FILE\"
+    echo \"Boot \$reboot_count: $(date): Samsung NVMe drives: \$nvme_count\" >> \"$NVME_LOG_FILE\"
     return \$reboot_count
 }
 
@@ -115,12 +113,18 @@ systemctl start reboot_counter.service
 echo "Systemd service created and enabled."
 
 
-# Create the log file if it doesn't exist
+
+# Create the log files if they don't exist
 if [ ! -f "$COUNT_FILE" ]; then
     echo "0" > "$COUNT_FILE"
 fi
+if [ ! -f "$NVME_LOG_FILE" ]; then
+    touch "$NVME_LOG_FILE"
+fi
 chown root:root "$COUNT_FILE"
 chmod 644 "$COUNT_FILE"
+chown root:root "$NVME_LOG_FILE"
+chmod 644 "$NVME_LOG_FILE"
 
 
 # Desktop icon creation skipped for Ubuntu Server (no GUI)
