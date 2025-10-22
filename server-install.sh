@@ -18,38 +18,38 @@ fi
 create_main_script() {
     echo "#!/bin/bash
 # Path to the reboot count file
-COUNT_FILE=\"$COUNT_FILE\"
-NVME_LOG_CMD=\"$NVME_LOG_CMD\"
-NVME_LOG_FILE=\"$NVME_LOG_FILE\"
+COUNT_FILE=\\\"$COUNT_FILE\\\"
+NVME_LOG_CMD=\\\"$NVME_LOG_CMD\\\"
+NVME_LOG_FILE=\\\"$NVME_LOG_FILE\\\"
 
 # Function to check and increment reboot count
 check_reboots() {
     # Check if the count file exists, initialize if not
-    if [ ! -f \"$COUNT_FILE\" ]; then
-        echo \"0\" > \"$COUNT_FILE\"
+    if [ ! -f \\\"$COUNT_FILE\\\" ]; then
+        echo \\\"0\\\" > \\\"$COUNT_FILE\\\"
     fi
     # Read current count from file and increment it
-    current_count=\$(cat \"$COUNT_FILE\" 2>/dev/null | grep -Eo '^[0-9]+' || echo 0)
-    reboot_count=\$((current_count + 1))
+    current_count=\\$(cat \\\"$COUNT_FILE\\\" 2>/dev/null | grep -Eo \'^[0-9]+\' || echo 0)
+    reboot_count=\\$((current_count + 1))
     # Display the current reboot count
-    echo \"System has rebooted \$reboot_count times.\"
+    echo \\\"System has rebooted \\$reboot_count times.\\\"
     # Wait for 5 seconds
     sleep 25
     # Overwrite the count file with just the new count
-    echo \"\$reboot_count\" > \"$COUNT_FILE\"
+    echo \\\"\\$reboot_count\\\" > \\\"$COUNT_FILE\\\"
     # Count Samsung NVMe drives and append to separate log
-    nvme_count=\$(eval \"$NVME_LOG_CMD\")
-    echo \"Boot \$reboot_count: $(date): Samsung NVMe drives: \$nvme_count\" >> \"$NVME_LOG_FILE\"
-    return \$reboot_count
+    nvme_count=\\$(eval \\\"$NVME_LOG_CMD\\\")
+    echo \\\"Boot \\$reboot_count: $(date): Samsung NVMe drives: \\$nvme_count\\\" >> \\\"$NVME_LOG_FILE\\\"\
+    return \\$reboot_count
 }
 
 # Main script execution
 # Get the current reboot count after incrementing
 check_reboots
-reboot_count=\$?
-# Check if we've reached 3 reboots
-if [ \"\$reboot_count\" -eq 3 ]; then
-    echo \"Successfully rebooted 100 times!\"
+reboot_count=\\$?
+# Check if we\'ve reached 3 reboots
+if [ \\\"\\$reboot_count\\\" -eq 3 ]; then
+    echo \\\"Successfully rebooted 100 times!\\\"\
 else
     # Reboot the system again
     reboot
@@ -70,7 +70,7 @@ ExecStart=$MAIN_SCRIPT_PATH
 Restart=on-failure
 User=root
 
-[Install]
+[Install]\
 WantedBy=multi-user.target" > "$SERVICE_FILE"
 
     chmod 644 "$SERVICE_FILE"
@@ -78,17 +78,17 @@ WantedBy=multi-user.target" > "$SERVICE_FILE"
 
 # Function to create desktop icon
 #create_desktop_icon() {
-#    echo "[Desktop Entry]
-#Version=1.0
-#Type=Application
-#Name=Reboot Counter
-#Exec=sudo $MAIN_SCRIPT_PATH
-#Icon=system-run
-#Terminal=false
+#    echo "[Desktop Entry]\
+#Version=1.0\
+#Type=Application\
+#Name=Reboot Counter\
+#Exec=sudo $MAIN_SCRIPT_PATH\
+#Icon=system-run\
+#Terminal=false\
 #StartupWMClass=reboot_counter" > "$DESKTOP_FILE"
 #
-#    chmod +x "$DESKTOP_FILE"
-#}
+#    chmod +x "$DESKTOP_FILE"\
+#}\
 
 # Function to configure sudoers for password-less execution
 configure_sudoers() {
