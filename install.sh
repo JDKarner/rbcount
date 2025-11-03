@@ -29,8 +29,8 @@ check_reboots() {
     reboot_count=\$((current_count + 1))
     # Display the current reboot count
     echo \"System has rebooted \$reboot_count times.\"
-    # Wait for 5 seconds
-    sleep 5
+    # Wait for 40 seconds
+    sleep 40
     # Update the count in the file
     echo \"\$reboot_count\" > \"\$COUNT_FILE\"
     return \$reboot_count
@@ -45,6 +45,7 @@ if [ \"\$reboot_count\" -eq 100 ]; then
     echo \"Successfully rebooted X times!\"
 else
     # Reboot the system again
+    sleep 40
     reboot
 fi" > "$MAIN_SCRIPT_PATH"
 
